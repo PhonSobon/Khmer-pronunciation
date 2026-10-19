@@ -1,15 +1,12 @@
 # Khmer Pronunciation (G2P)
 
-A small Transformer (7.5M parameters) that converts Khmer words to their pronunciation, in two formats:
+A small Transformer (7.5M parameters) that converts Khmer words to their NCKL Khmer-script
+respelling, with `-` between syllables:
 
-| task | example |
-|---|---|
-| `respell` – NCKL Khmer-script respelling | ក្របី → ក្រ-បី |
-| `ipa` – phonemes | ក្របី → k r ɑ . ɓ ə j |
+    ក្របី → ក្រ-បី
 
 Training data is downloaded from the Hugging Face Hub:
-[phonsobon/khmer-dictionary](https://huggingface.co/datasets/phonsobon/khmer-dictionary) (`g2p` config) and
-[seanghay/google-khmer-lexicon](https://huggingface.co/datasets/seanghay/google-khmer-lexicon).
+[phonsobon/khmer-G2P](https://huggingface.co/datasets/phonsobon/khmer-G2P).
 
 ## Train on Google Colab
 
@@ -32,12 +29,11 @@ validation checks without improvement).
 
 ```bash
 python g2p/predict.py ក្របី កម្ពុជា
-python g2p/predict.py ក្របី កម្ពុជា --task ipa
 ```
 
 ```python
 from predict import KhmerG2P   # run from inside g2p/
 g2p = KhmerG2P()
-g2p("ក្របី")               # 'ក្រ-បី'
-g2p("ក្របី", task="ipa")   # 'k r ɑ . ɓ ə j'
+g2p("ក្របី")                  # 'ក្រ-បី'
+g2p(["សម្ដេច", "កម្ពុជា"])     # list in, list out
 ```

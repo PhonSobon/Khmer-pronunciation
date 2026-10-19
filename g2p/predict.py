@@ -3,10 +3,9 @@
     from predict import KhmerG2P
     g2p = KhmerG2P()
     g2p("ក្របី")                    # 'ក្រ-បី'           (NCKL Khmer-script respelling)
-    g2p("ក្របី", task="ipa")        # 'k r ɑ . ɓ ə j'    (phonemes)
     g2p(["សម្ដេច", "កម្ពុជា"])       # list in, list out
 
-CLI: python g2p/predict.py ក្របី កម្ពុជា [--task ipa]
+CLI: python g2p/predict.py ក្របី កម្ពុជា
 """
 import argparse
 import re
@@ -14,7 +13,7 @@ from pathlib import Path
 
 import torch
 
-from model import G2PModel, Vocab, format_output, pad_batch, source_tokens
+from model import TASKS, G2PModel, Vocab, format_output, pad_batch, source_tokens
 
 DEFAULT_CKPT = Path(__file__).resolve().parent / "checkpoints/best.pt"
 NON_KHMER = re.compile(r"[^ក-៿‌‍]+")
@@ -43,7 +42,7 @@ class KhmerG2P:
 if __name__ == "__main__":
     ap = argparse.ArgumentParser()
     ap.add_argument("words", nargs="+")
-    ap.add_argument("--task", choices=["respell", "ipa"], default="respell")
+    ap.add_argument("--task", choices=TASKS, default="respell")
     args = ap.parse_args()
     for w, p in zip(args.words, KhmerG2P()(args.words, task=args.task)):
         print(f"{w}\t{p}")

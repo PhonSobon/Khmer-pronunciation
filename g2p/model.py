@@ -1,8 +1,7 @@
 """Character-level Transformer for Khmer grapheme-to-phoneme conversion.
 
 The source is `<task>` + the word's characters; the target is a token sequence:
-Khmer characters with `-` between syllables for task `respell`, or phoneme
-symbols with `.` between syllables for task `ipa`.
+Khmer characters with `-` between syllables for task `respell`.
 """
 import math
 
@@ -11,7 +10,7 @@ from torch import nn
 
 PAD, BOS, EOS, UNK = 0, 1, 2, 3
 SPECIALS = ["<pad>", "<s>", "</s>", "<unk>"]
-TASKS = ["respell", "ipa"]
+TASKS = ["respell"]
 
 
 class Vocab:
